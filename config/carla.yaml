@@ -1,0 +1,61 @@
+# scalability analysis parameters
+video_time: 100000
+node_num: 100000
+traj_len: 100000
+
+# algorithm setting parameters
+time_gap: 400 # for merging adjacent nodes
+cam_cand_num: 50 # max number of candidates in one camera
+
+fps: 20 # original fps
+down_sample_fps: 20 # sampling fps
+
+## dataset parameters
+dataset: "carla"
+dataset_path: "/mnt/data_hdd2/dth/data/carla_orig_data/"
+traj_gt_path: "/mnt/data_hdd2/dth/data/carla_orig_data/traj_gt/"
+
+cam_node_file: '/mnt/data_hdd2/dth/data/carla_orig_data/road_info/cam_nodes.txt'
+node_feats_path: '/mnt/data_hdd2/dth/data/carla_orig_data/feat_extract/gf_feats_bin/'
+orig_node_feats_path: ''
+query_feats_path: '/mnt/data_hdd2/dth/data/carla_orig_data/feat_extract/query_feats/'
+app_feats_index_path: '/mnt/data_hdd2/dth/data/carla_orig_data/feat_extract/gf_feats_bin/'
+plate_feats_index_path: ''
+
+# cache_data about road graph and shortest path
+road_graph_file: "cache_data/road_graph.pkl"
+shortest_path_results_file: "cache_data/cam_shortest_path_result.pkl"
+cam_path_neighbor_dict_file: "cache_data/cam_path_neighbor_dict.pkl"
+cam_path_sec_ratio_file: "cache_data/cam_path_sec_ratio.pkl"
+cid_to_rid_file: "cache_data/cid_rid_correspondence.pkl"
+
+# index related parameters
+ngpu: 0 # the GPU number for index retrieval
+select_ratio: 10 # the select ratio for building index
+frame_tpye_byte_num: 8 # int format, need to be keep in line with binary format
+feat_dim: 2048 # the feature dimension
+k: 20000 # faiss function search space
+sim_thres: 0.65 # similarity threshold to truncate distance list
+
+# trajectory generation parameters
+topk_filtering_coef: 3.0 # the coefficient for filtering topk nodes
+vel_range_coeff: 20. # velocity range coefficient for standard deviation
+vel_std_thres: 500. # velocity standard deviation threshold
+neighbor_cam_num_thres: 5 # neighbor camera number threshold
+merge_time_gap: 400 # time range threshold for merging adjacent nodes in graph completion
+u_turn_penalty_coeff: 0. # the penalty coefficient for u-turn
+edge_weight_thres: 0. # the edge weight threshold for filt out some edges
+
+# output directory
+output_path: "res/outputs/"
+
+# all camera id list
+cam_id_list: []
+
+# if use the plate information
+use_plate: False
+
+# save topk candidates
+topk_cand_save: False
+topk_cand_path: '/mnt/data_hdd_large/dth/home/data/denoise/topk_cand/'
+save_vel_distrib: True

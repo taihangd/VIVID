@@ -1,0 +1,60 @@
+# scalability analysis parameters
+video_time: 16
+node_num: 600
+traj_len: 16
+
+# algorithm setting parameters
+time_gap: 50 # for merging adjacent nodes
+cam_cand_num: 30 # max number of candidates in one camera
+
+fps: 5
+down_sample_fps: 1
+
+## dataset parameters
+dataset: "video-sg"
+dataset_path: "/mnt/data_hdd_large/dth/data_hdd1/videosg_data/dataset_gt/road_graph_gt/t20_c1000_len24/"
+traj_gt_path: "/mnt/data_hdd_large/dth/data_hdd1/videosg_data/dataset_gt/traj_gt/t20_c1000_len24/"
+
+cam_node_file: '/mnt/data_hdd_large/dth/data_hdd1/videosg_data/dataset_gt/road_graph_gt/t16_c600_len16/road_info/node_final.txt'
+node_feats_path: '/mnt/data_hdd_large/dth/data_hdd1/videosg_data/node_features/t20_c1000_len24/'
+orig_node_feats_path: ''
+query_feats_path: '/mnt/data_hdd_large/dth/data_hdd1/videosg_raw_data/veri/query_features/'
+app_feats_index_path: '/mnt/data_hdd_large/dth/data_hdd1/videosg_data/node_features/t20_c1000_len24/'
+plate_feats_index_path: ''
+
+# index related parameters
+ngpu: 0 # the GPU number for index retrieval
+select_ratio: 10 # the select ratio for building index
+frame_tpye_byte_num: 8 # int format, need to be keep in line with binary format
+feat_dim: 2048 # the feature dimension
+k: 400 # faiss function search space
+sim_thres: 0.3 # similarity threshold to truncate distance list
+
+# trajectory generation parameters
+topk_filtering_coef: 6. # the coefficient for filtering topk nodes
+vel_range_coeff: 2. # velocity range coefficient for standard deviation
+vel_std_thres: 3200. # velocity standard deviation threshold
+neighbor_cam_num_thres: 1000 # neighbor camera number threshold
+merge_time_gap: 400 # time range threshold for merging adjacent nodes in graph completion
+u_turn_penalty_coeff: -0.5 # the penalty coefficient for u-turn
+edge_weight_thres: 0. # the edge weight threshold for filt out some edges
+
+# output directory
+output_path: "res/outputs/"
+
+# all camera id list
+cam_id_list: []
+
+# cache_data about road graph and shortest path
+road_graph_file: "cache_data/road_graph_sg_junction.pkl"
+shortest_path_results_file: "cache_data/cam_shortest_path_result.pkl"
+cam_path_neighbor_dict_file: "cache_data/cam_path_neighbor_dict.pkl"
+cam_path_sec_ratio_file: "cache_data/cam_path_sec_ratio.pkl"
+cid_to_rid_file: "cache_data/cid_rid_correspondence.pkl"
+
+# save topk candidates
+# topk_cand_save: True
+topk_cand_save: False
+topk_cand_path: '/mnt/data_hdd_large/dth/home/data/denoise/topk_cand/'
+save_vel_distrib: True
+
