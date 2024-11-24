@@ -15,7 +15,6 @@ down_sample_fps: 1
 dataset: "uv-z"
 dataset_path: '/mnt/data_hdd_large/dth/home/data/MMVC/mmvc_dataset/'
 dist_file: '/mnt/data_hdd_large/dth/home/data/MMVC/mmvc_dataset/map/all_pairs_route_distance.csv'
-cam_file: '/mnt/data_hdd_large/dth/home/data/MMVC/mmvc_dataset/map/camera.txt'
 traj_gt_path: '/mnt/data_hdd_large/dth/home/data/MMVC/urban_vehicle/traj_gt/records_200w/'
 time_range_file: '/mnt/data_hdd_large/dth/home/data/MMVC/urban_vehicle/time_range.txt'
 

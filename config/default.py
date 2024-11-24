@@ -56,7 +56,6 @@ _C.cam_id_list = [1, 2, 3, 4, 5, 6, 8, 9, 10, 13, 14, 17, 18,
 
 # only for MMVC dataset
 _C.dist_file = '/mnt/data_hdd_large/dth/home/data/MMVC/mmvc_dataset/map/all_pairs_route_distance.csv'
-_C.cam_file = '/mnt/data_hdd_large/dth/home/data/MMVC/mmvc_dataset/map/camera.txt'
 _C.traj_gt_path = "/mnt/data_hdd_large/dth/home/data/cityflow_orig_data/test_set_traj_road_network_comp_gt_range_50/"
 
 # cache_data about road graph and shortest path
