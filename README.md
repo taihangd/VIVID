@@ -47,11 +47,9 @@ There are the configuration files in "./config" folder, where one can edit and s
 - traj_rec_solver.py
   - path inference query algorithm.
 
-## Cache Data Preparation
-Before testing, run the .py file in the "./cache_data" to generation cache data. 
 
 ## Run the Code
-After setting the configuration, to start VIVID, simply run:
+Run the .py file in the "./datasets" to generate cache data. After setting the configuration, to start VIVID, simply run:
 
 ```
 python main.py \
@@ -59,7 +57,7 @@ python main.py \
 topk_filtering_coef 4. \
 vel_range_coeff 5. \
 vel_std_thres 200. \
-merge_time_gap 400. \
+merge_time_gap 400 \
 u_turn_penalty_coeff -0.5 \
 edge_weight_thres 0.
 ```

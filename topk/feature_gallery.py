@@ -3,7 +3,6 @@ import random
 import time
 import os
 import numpy as np
-import logging
 from common.load_feature import *
 from common.calculate_function import *
 
@@ -82,8 +81,6 @@ class FeatureGallery(object):
         return all_feature_num // 5
 
     def build_index(self):
-        logging.basicConfig(level=logging.INFO, filename='src/log/build-index.log', filemode='a', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
         dst = self.data_path + '/train_data.bin'
         if os.path.exists(dst):
             return 0, 0, 0

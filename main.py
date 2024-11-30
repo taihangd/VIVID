@@ -30,7 +30,6 @@ if __name__ == '__main__':
     traj_rec_obj.set_cam_path_sec_ratio_info()
     traj_rec_obj.reset_dataset_statistics()
     
-    ## main process
     # load and generate query info
     query_features = np.load(cfg.query_feats_path + 'query_gf.npy').astype('float32')
     query_features = np.squeeze(query_features)
@@ -226,7 +225,7 @@ if __name__ == '__main__':
             continue
 
 
-        ## graph enhancement via topology information
+        ## graph enhancement
         top_k, motion_prob_graph = traj_rec_obj.graph_completion(top_k, motion_prob_graph, cfg.merge_time_gap)
         print('complete motion probability graph successfully!')
         
@@ -263,11 +262,10 @@ if __name__ == '__main__':
 
 
     print("=" * 40)
-    print(f"VIVID precision: {np.mean(traj_rec_obj.all_p):.4f}    TOP-K precision: {np.mean(traj_rec_obj.all_top_k_p):.4f}")
-    print(f"VIVID recall   : {np.mean(traj_rec_obj.all_r):.4f}    TOP-K recall   : {np.mean(traj_rec_obj.all_top_k_r):.4f}")
-    print(f"VIVID F1       : {np.mean(traj_rec_obj.all_f1):.4f}    TOP-K F1       : {np.mean(traj_rec_obj.all_top_k_f1):.4f}")
-    print(f"VIVID time     : {np.mean(traj_rec_obj.all_inference_time):.4f}    TOP-K time     : {np.mean(traj_rec_obj.all_top_k_t):.4f}")
+    print(f"VIVID precision: {np.mean(traj_rec_obj.all_p):.4f}")
+    print(f"VIVID recall   : {np.mean(traj_rec_obj.all_r):.4f}")
+    print(f"VIVID F1       : {np.mean(traj_rec_obj.all_f1):.4f}")
+    print(f"VIVID time     : {np.mean(traj_rec_obj.all_inference_time):.4f}")
 
     print("=" * 40)
     print(f'VIVID precision/recall/F1/time: {np.mean(traj_rec_obj.all_p):.4f}/{np.mean(traj_rec_obj.all_r):.4f}/{np.mean(traj_rec_obj.all_f1):.4f}/{np.mean(traj_rec_obj.all_inference_time):.4f}')
-    print(f'TOP-K precision/recall/F1/time: {np.mean(traj_rec_obj.all_top_k_p):.4f}/{np.mean(traj_rec_obj.all_top_k_r):.4f}/{np.mean(traj_rec_obj.all_top_k_f1):.4f}/{np.mean(traj_rec_obj.all_top_k_t):.4f}')

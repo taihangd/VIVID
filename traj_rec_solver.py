@@ -2,17 +2,17 @@ import shutil
 import json
 import math
 import pickle
-from abc import ABCMeta
 import fastkde
-from scipy.integrate import cumtrapz
-from scipy.interpolate import RegularGridInterpolator
 import networkx as nx
 import osmnx as ox
+import pandas as pd
+from abc import ABCMeta
+from scipy.integrate import cumtrapz
+from scipy.interpolate import RegularGridInterpolator
 from collections import defaultdict
 from topk.topk import *
 from topk.camera import *
 from topk.feature_gallery import *
-from common.load_prior import *
 from common.graph import *
 
 
@@ -167,11 +167,6 @@ class VIVID(object):
         return
         
     def load_dataset_info(self, cfg):
-        # Common loading function for cam_node_dict
-        def load_cam_node():
-            cam_node_file = cfg.cam_node_file
-            self.cam_node_dict = self.load_cam_node_dict(cam_node_file)
-        
         base_path = os.path.join(self.dataset_path, self.folder_name)
         if self.dataset == "cityflow":
             route_dist_filename = os.path.join(base_path, "road_info", "all_pairs_route_distance.csv")
@@ -194,9 +189,9 @@ class VIVID(object):
             self.plate_feat_partition_file = None
             self.time_range_dict = None
 
-        # Load edge lengths and cam node dictionary
-        self.edge_length = load_dist_file(route_dist_filename)
-        load_cam_node()
+        # load cam node dictionary and edge lengths
+        self.cam_node_dict = self.load_cam_node_dict(cfg.cam_node_file)
+        self.edge_length = self.load_dist_file(route_dist_filename)
 
         return
 
@@ -533,6 +528,20 @@ class VIVID(object):
         
         self.cam_node_dict = cam_node_dict
         return cam_node_dict
+
+    def load_dist_file(self, filename):
+        data = pd.read_csv(filename, header=0).values.tolist()
+        edge_length = {}
+        for idx in range(len(data)):
+            edge = data[idx]
+            node1 = int(edge[0])
+            node2 = int(edge[1])
+            dis = float(edge[2])
+            if dis == -1:
+                dis = 999999999
+            t = float(edge[3])
+            edge_length[(node1, node2)] = (dis, t)
+        return edge_length
 
 
     def filter_cands(self, I, D, car_id, down_sample_fps):

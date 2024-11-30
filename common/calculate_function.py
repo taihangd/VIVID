@@ -15,12 +15,6 @@ def sigmoid(x):
 def sigmoid_arr(x):
     return 1 / (1 + np.exp(-x))
 
-def cal_edge_weight_delta(w1, w2):
-    mean_weight = (w1 + w2) / 2
-    min_weight = min(w1, w2)
-    delta = 0.5 * (sigmoid(5 * mean_weight) - 0.5)
-    return -delta
-
 def cal_appear_weight(appear_times):
     # return [node_weight(x) for x in appear_times]
     return [sigmoid(x) for x in appear_times]
@@ -44,59 +38,6 @@ def cal_dis(node1, node2, edge_length):
         dis = 999999999
     t = time.time() - t
     return dis, t
-
-def get_cos_similar(v1, v2):
-    if v1.shape != v2.shape:
-        raise RuntimeError("array {} shape not match {}".format(v1.shape, v2.shape))
-    if v1.ndim == 1:
-        v1_norm = np.linalg.norm(v1)
-        v2_norm = np.linalg.norm(v2)
-    elif v1.ndim == 2:
-        v1_norm = np.linalg.norm(v1, axis=1, keepdims=True)
-        v2_norm = np.linalg.norm(v2, axis=1, keepdims=True)
-    else:
-        raise RuntimeError("array dimensions {} not right".format(v1.ndim))
-    similarity = np.dot(v1, v2.T) / (v1_norm * v2_norm)
-    return similarity
-
-def cal_vision(idx1, idx2, folder, feat_dim):
-    t = time.time()
-    filename = folder + '/avg_features.bin'
-    feature1 = load_avg_feature(filename, idx1, feat_dim)
-    feature2 = load_avg_feature(filename, idx2, feat_dim)
-    vision = get_cos_similar(feature1, feature2)
-    # transfer to vision distance
-    vis_dist = 1. - vision
-    t = time.time() - t
-    return vis_dist, t
-
-def cal_score(val, max_val, min_val):
-    if min_val == max_val or val <= min_val:
-        return 1
-    if val >= max_val:
-        return 0
-    score = (max_val - val) / (max_val - min_val)
-    score = max(min(score, 1), 0)
-    return score
-
-def score_fusion_min(score1, score2, score3):
-    if score1 != 0 and score2 != 0 and score3 != 0:
-        fusion_score = fusion_score = min(min(score1, score2), score3)
-    else:
-        fusion_score = 0
-
-    return fusion_score
-
-def score_fusion_weighted_mean(score1, score2, score3, weight_list=[0.4, 0.4, 0.2]):
-    fusion_score = score1 * weight_list[0] + score2 * weight_list[1] + score3 * weight_list[2]
-    return fusion_score
-
-def score_fusion_harmonic_mean(score1, score2, score3):
-    if score1 != 0 and score2 != 0 and score3 != 0:
-        fusion_score = 3 / (1 / score1 + 1 / score2 + 1 / score3)
-    else:
-        fusion_score = 0
-    return fusion_score
 
 def get_cos_sim(a, b):
     if a.shape != b.shape:
@@ -152,28 +93,4 @@ def get_euclidean_distance(a, b):
     else:
         dist = np.linalg.norm(a - b)
     return dist
-
-def cal_adaptive_threshold(x):
-    a = 1.6263676512927179
-    b = -2.5025352845881614
-    c = 0.06187670820910257
-    return max(1 / (a * np.sqrt(x) + b), 0.45)
-
-def get_percentile(data, low_bound, up_bound):
-    data.sort()
-    all_num = len(data)
-    low_bound_index = max(round(all_num * low_bound), 0)
-    up_bound_index = min(round(all_num * up_bound), all_num - 1)
-    return data[low_bound_index], data[up_bound_index]
-
-
-def get_interval_range(data):
-    data.sort()
-    min_val = data[0]
-    sec_val = data[min(bisect.bisect_right(data, min_val), len(data)-1)] # limit the range to avoid exceeding the index
-    max_val = data[round(len(data) * 0.5)]
-    min_range = sec_val - min_val
-    max_range = max_val - min_val
-    return min_range, max_range
-
 
